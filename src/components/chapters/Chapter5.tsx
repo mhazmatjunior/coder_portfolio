@@ -27,7 +27,8 @@ export const Chapter5Left = () => {
         let i = 0;
         const interval = setInterval(() => {
             if (i < allLogs.length) {
-                setLogs(prev => [...prev, allLogs[i]]);
+                const line = allLogs[i]; // capture value synchronously
+                setLogs(prev => [...prev, line]);
                 i++;
             } else {
                 clearInterval(interval);
