@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Mail, Code, Shield, ExternalLink, Terminal, Download, Award, BadgeCheck, X, ZoomIn } from "lucide-react";
+import { Github, Linkedin, Mail, Code, Shield, ExternalLink, Terminal, Download, Award, BadgeCheck, X, ZoomIn, ChevronDown, ChevronUp } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const TypewriterText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
@@ -38,6 +38,30 @@ const TypewriterText = ({ text, delay = 0 }: { text: string; delay?: number }) =
 
 export default function Portfolio() {
     const [selectedCert, setSelectedCert] = useState<any>(null);
+    const [showAllCerts, setShowAllCerts] = useState(false);
+
+    const certifications = [
+        { name: "React - The Complete Guide", issuer: "Academind / Udemy", date: "2024", color: "from-[#61DAFB]/20", image: "/React - The Complete Guide.jpg" },
+        { name: "JavaScript Programming", issuer: "Professional Certification", date: "2024", color: "from-[#F7DF1E]/20", image: "/JavaScript Certificate.jpg" },
+        { name: "JavaScript (Basic)", issuer: "HackerRank", date: "2024", color: "from-[#F7DF1E]/10", image: "/javascript_basic certificate_page-0001.jpg" },
+        { name: "IBM Cybersecurity Analyst Professional", issuer: "IBM / Coursera", date: "2024", color: "from-[#052FF2]/20", image: "/IBM Cybersecurity Analyst.jpg" },
+        { name: "Operating Systems Specialist", issuer: "IBM", date: "2024", color: "from-[#0F62FE]/20", image: "/Operating Systems IBM.jpg" },
+        { name: "CompTIA Security+ & CySA+", issuer: "CompTIA", date: "2024", color: "from-[#FF0000]/20", image: "/comptia-security-cysa.jpg" },
+        { name: "Cybersecurity Tools & Cyberattacks", issuer: "IBM / Coursera", date: "2024", color: "from-[#4B0082]/20", image: "/Introduction to Cybersecurity Tools and Cyberattacks.jpg" },
+        { name: "Penetration Testing & Cryptography", issuer: "IBM", date: "2024", color: "from-[#FF4500]/20", image: "/Penetration Testing, Threat Hunting, and Cryptography.jpg" },
+        { name: "Compliance & Standards", issuer: "IBM", date: "2024", color: "from-[#FFD700]/20", image: "/compliance-standards.jpg" },
+        { name: "Cybersecurity Architecture", issuer: "IBM / Coursera", date: "2024", color: "from-[#00CED1]/20", image: "/Cybersecurity Architecture.jpg" },
+        { name: "Incident Response & Forensics", issuer: "IBM", date: "2024", color: "from-[#228B22]/20", image: "/Incident Response and Digital Forensics.jpg" },
+        { name: "Generative AI for Cybersecurity", issuer: "IBM", date: "2024", color: "from-[#8A2BE2]/20", image: "/Generative AI Boost Your Cybersecurity Career.jpg" },
+        { name: "Database Essentials", issuer: "IBM / Coursera", date: "2024", color: "from-[#40E0D0]/20", image: "/Database Essentials and Vulnerabilities.jpg" },
+        { name: "Computer Networks & Security", issuer: "IBM / Coursera", date: "2024", color: "from-[#FF6347]/20", image: "/Computer Networks and Network Security.jpg" },
+        { name: "Cybersecurity Careers", issuer: "IBM / Coursera", date: "2024", color: "from-[#32CD32]/20", image: "/Introduction to Cybersecurity Careers.jpg" },
+        { name: "Cybersecurity Essentials", issuer: "IBM / Coursera", date: "2024", color: "from-[#00008B]/20", image: "/Introduction to Cybersecurity Essentials.jpg" },
+        { name: "Cybersecurity Capstone Project", issuer: "IBM / Coursera", date: "2024", color: "from-[#800000]/20", image: "/Cybersecurity Case Studies and Capstone Project.jpg" },
+        { name: "CC Pre-Assessment", issuer: "ISC2 / Coursera", date: "2024", color: "from-[#4682B4]/20", image: "/CC Course Pre Assessment.jpg" }
+    ];
+
+    const displayedCerts = showAllCerts ? certifications : certifications.slice(0, 9);
 
     return (
         <div className="w-full min-h-screen bg-deep-space text-silver-gray font-sans overflow-y-auto overflow-x-hidden selection:bg-cyber-cyan selection:text-black">
@@ -207,9 +231,9 @@ export default function Portfolio() {
                     transition={{ delay: 0.6 }}
                     className="flex gap-4"
                 >
-                    <button className="px-8 py-3 bg-electric-blue text-white rounded-lg font-bold hover:bg-blue-600 transition-colors shadow-lg shadow-electric-blue/20">
+                    <a href="#projects" className="px-8 py-3 bg-electric-blue text-white rounded-lg font-bold hover:bg-blue-600 transition-colors shadow-lg shadow-electric-blue/20">
                         View My Work
-                    </button>
+                    </a>
                     <button className="px-8 py-3 border border-slate-700 rounded-lg font-bold hover:border-cyber-cyan hover:text-cyber-cyan transition-colors flex items-center gap-2">
                         <Download size={18} /> Resume
                     </button>
@@ -349,81 +373,93 @@ export default function Portfolio() {
                         <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent mx-8 mb-4 hidden md:block" />
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {[
-                            { name: "React - The Complete Guide", issuer: "Academind / Udemy", date: "2024", color: "from-[#61DAFB]/20", image: "/React - The Complete Guide.jpg" },
-                            { name: "JavaScript Programming", issuer: "Professional Certification", date: "2024", color: "from-[#F7DF1E]/20", image: "/JavaScript Certificate.jpg" },
-                            { name: "JavaScript (Basic)", issuer: "HackerRank", date: "2024", color: "from-[#F7DF1E]/10", image: "/javascript_basic certificate_page-0001.jpg" },
-                            { name: "IBM Cybersecurity Analyst Professional", issuer: "IBM / Coursera", date: "2024", color: "from-[#052FF2]/20", image: "/IBM Cybersecurity Analyst.jpg" },
-                            { name: "Operating Systems Specialist", issuer: "IBM", date: "2024", color: "from-[#0F62FE]/20", image: "/Operating Systems IBM.jpg" },
-                            { name: "CompTIA Security+ & CySA+", issuer: "CompTIA", date: "2024", color: "from-[#FF0000]/20", image: "/Cybersecurity Assessment CompTIA Security+ & CYSA+.jpg" },
-                            { name: "Cybersecurity Tools & Cyberattacks", issuer: "IBM / Coursera", date: "2024", color: "from-[#4B0082]/20", image: "/Introduction to Cybersecurity Tools and Cyberattacks.jpg" },
-                            { name: "Penetration Testing & Cryptography", issuer: "IBM", date: "2024", color: "from-[#FF4500]/20", image: "/Penetration Testing, Threat Hunting, and Cryptography.jpg" },
-                            { name: "Compliance & Standards", issuer: "IBM", date: "2024", color: "from-[#FFD700]/20", image: "/Cybersecurity Complance Framework, Standards and Redulations.jpg" },
-                            { name: "Cybersecurity Architecture", issuer: "IBM / Coursera", date: "2024", color: "from-[#00CED1]/20", image: "/Cybersecurity Architecture.jpg" },
-                            { name: "Incident Response & Forensics", issuer: "IBM", date: "2024", color: "from-[#228B22]/20", image: "/Incident Response and Digital Forensics.jpg" },
-                            { name: "Generative AI for Cybersecurity", issuer: "IBM", date: "2024", color: "from-[#8A2BE2]/20", image: "/Generative AI Boost Your Cybersecurity Career.jpg" },
-                            { name: "Database Essentials", issuer: "IBM / Coursera", date: "2024", color: "from-[#40E0D0]/20", image: "/Database Essentials and Vulnerabilities.jpg" },
-                            { name: "Computer Networks & Security", issuer: "IBM / Coursera", date: "2024", color: "from-[#FF6347]/20", image: "/Computer Networks and Network Security.jpg" },
-                            { name: "Cybersecurity Careers", issuer: "IBM / Coursera", date: "2024", color: "from-[#32CD32]/20", image: "/Introduction to Cybersecurity Careers.jpg" },
-                            { name: "Cybersecurity Essentials", issuer: "IBM / Coursera", date: "2024", color: "from-[#00008B]/20", image: "/Introduction to Cybersecurity Essentials.jpg" },
-                            { name: "Cybersecurity Capstone Project", issuer: "IBM / Coursera", date: "2024", color: "from-[#800000]/20", image: "/Cybersecurity Case Studies and Capstone Project.jpg" },
-                            { name: "CC Pre-Assessment", issuer: "ISC2 / Coursera", date: "2024", color: "from-[#4682B4]/20", image: "/CC Course Pre Assessment.jpg" }
-                        ].map((cert, i) => (
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+                        <AnimatePresence>
+                            {displayedCerts.map((cert, i) => (
+                                <motion.div
+                                    key={cert.name}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                                    transition={{
+                                        delay: showAllCerts && i >= 9
+                                            ? (i - 9) * 0.05
+                                            : Math.floor(i / 3) * 0.1 + (i % 3) * 0.03,
+                                        duration: 0.4
+                                    }}
+                                    whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
+                                    onClick={() => setSelectedCert(cert)}
+                                    className="relative group cursor-pointer h-full"
+                                >
+                                    <div className={`absolute inset-0 bg-gradient-to-br ${cert.color} to-transparent rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+
+                                    <div className="bg-slate-dark/60 backdrop-blur-xl border border-white/10 p-8 rounded-3xl relative overflow-hidden group-hover:border-white/20 transition-all shadow-2xl h-full flex flex-col min-h-[320px]">
+                                        {/* Image Preview - Always Visible but Transparent & Fitted */}
+                                        <div className="absolute inset-4 opacity-20 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none grayscale-[0.5] group-hover:grayscale-0 flex items-center justify-center overflow-hidden rounded-xl">
+                                            <img
+                                                src={cert.image}
+                                                alt={cert.name}
+                                                className="w-full h-full object-contain scale-110 group-hover:scale-100 transition-transform duration-1000"
+                                                loading="lazy"
+                                            />
+                                            {/* Contrast Overlay for Text Legibility */}
+                                            <div className="absolute inset-0 bg-slate-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0" />
+                                        </div>
+
+                                        {/* Hover Overlay Icon */}
+                                        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px] z-0">
+                                            <div className="p-3 bg-cyber-cyan/20 rounded-full border border-cyber-cyan/40 shadow-[0_0_15px_rgba(0,243,255,0.3)]">
+                                                <ZoomIn className="text-cyber-cyan" size={24} />
+                                            </div>
+                                        </div>
+                                        {/* Animated Corner Border */}
+                                        <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-cyber-cyan/20 to-transparent transition-opacity group-hover:opacity-40" style={{ clipPath: 'polygon(100% 0, 100% 100%, 0 0)' }} />
+
+                                        <div className="flex justify-between items-start mb-10 relative z-10">
+                                            <div className="p-4 bg-black/40 rounded-2xl border border-white/5 group-hover:scale-110 transition-transform">
+                                                <BadgeCheck className="text-cyber-cyan" size={28} />
+                                            </div>
+                                            <span className="text-[10px] font-mono text-white/30 tracking-[0.3em] font-black">{cert.date}</span>
+                                        </div>
+
+                                        <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors leading-tight relative z-10">{cert.name}</h3>
+                                        <p className="text-sm text-muted-blue font-medium mb-8 relative z-10">{cert.issuer}</p>
+
+                                        <div className="mt-auto flex items-center gap-3 text-[10px] font-mono font-bold text-cyber-cyan opacity-60 group-hover:opacity-100 transition-opacity group-hover:tracking-widest duration-300 relative z-10">
+                                            <div className="w-1.5 h-1.5 rounded-full bg-cyber-cyan animate-pulse" />
+                                            CLICK_TO_EXPAND
+                                        </div>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </div>
+
+                    {/* Show More Button */}
+                    <div className="flex justify-center mt-8">
+                        <motion.button
+                            onClick={() => setShowAllCerts(!showAllCerts)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            className="group relative flex items-center gap-3 px-8 py-3 bg-black/40 backdrop-blur-xl border border-white/10 rounded-full text-cyber-cyan font-mono text-xs font-black tracking-[0.3em] uppercase hover:border-cyber-cyan/50 hover:text-white transition-all shadow-[0_0_20px_rgba(0,0,0,0.5)] overflow-hidden"
+                        >
+                            <div className="absolute inset-0 bg-gradient-to-r from-cyber-cyan/10 via-transparent to-cyber-cyan/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                            {showAllCerts ? (
+                                <>
+                                    VIEW_LESS_CREDENTIALS <ChevronUp size={16} />
+                                </>
+                            ) : (
+                                <>
+                                    VIEW_ALL_CREDENTIALS <ChevronDown size={16} />
+                                </>
+                            )}
+                            {/* Scanning Border Effect */}
                             <motion.div
-                                key={cert.name}
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true, margin: "200px 0px" }}
-                                transition={{
-                                    delay: Math.floor(i / 3) * 0.1 + (i % 3) * 0.03,
-                                    duration: 0.5
-                                }}
-                                whileHover={{ scale: 1.02, transition: { duration: 0.2 } }}
-                                onClick={() => setSelectedCert(cert)}
-                                className="relative group cursor-pointer h-full"
-                            >
-                                <div className={`absolute inset-0 bg-gradient-to-br ${cert.color} to-transparent rounded-3xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-
-                                <div className="bg-slate-dark/60 backdrop-blur-xl border border-white/10 p-8 rounded-3xl relative overflow-hidden group-hover:border-white/20 transition-all shadow-2xl h-full flex flex-col min-h-[320px]">
-                                    {/* Image Preview - Always Visible but Transparent & Fitted */}
-                                    <div className="absolute inset-4 opacity-20 group-hover:opacity-70 transition-opacity duration-700 pointer-events-none grayscale-[0.5] group-hover:grayscale-0 flex items-center justify-center overflow-hidden rounded-xl">
-                                        <img
-                                            src={cert.image}
-                                            alt={cert.name}
-                                            className="w-full h-full object-contain scale-110 group-hover:scale-100 transition-transform duration-1000"
-                                            loading="lazy"
-                                        />
-                                        {/* Contrast Overlay for Text Legibility */}
-                                        <div className="absolute inset-0 bg-slate-dark/40 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0" />
-                                    </div>
-
-                                    {/* Hover Overlay Icon */}
-                                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-black/40 backdrop-blur-[2px] z-0">
-                                        <div className="p-3 bg-cyber-cyan/20 rounded-full border border-cyber-cyan/40 shadow-[0_0_15px_rgba(0,243,255,0.3)]">
-                                            <ZoomIn className="text-cyber-cyan" size={24} />
-                                        </div>
-                                    </div>
-                                    {/* Animated Corner Border */}
-                                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-br from-cyber-cyan/20 to-transparent transition-opacity group-hover:opacity-40" style={{ clipPath: 'polygon(100% 0, 100% 100%, 0 0)' }} />
-
-                                    <div className="flex justify-between items-start mb-10 relative z-10">
-                                        <div className="p-4 bg-black/40 rounded-2xl border border-white/5 group-hover:scale-110 transition-transform">
-                                            <BadgeCheck className="text-cyber-cyan" size={28} />
-                                        </div>
-                                        <span className="text-[10px] font-mono text-white/30 tracking-[0.3em] font-black">{cert.date}</span>
-                                    </div>
-
-                                    <h3 className="text-xl font-bold mb-2 group-hover:text-white transition-colors leading-tight relative z-10">{cert.name}</h3>
-                                    <p className="text-sm text-muted-blue font-medium mb-8 relative z-10">{cert.issuer}</p>
-
-                                    <div className="mt-auto flex items-center gap-3 text-[10px] font-mono font-bold text-cyber-cyan opacity-60 group-hover:opacity-100 transition-opacity group-hover:tracking-widest duration-300 relative z-10">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-cyber-cyan animate-pulse" />
-                                        CLICK_TO_EXPAND
-                                    </div>
-                                </div>
-                            </motion.div>
-                        ))}
+                                animate={{ left: ["-100%", "200%"] }}
+                                transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
+                                className="absolute top-0 w-1/4 h-px bg-cyber-cyan shadow-[0_0_10px_#00f5ff] opacity-50"
+                            />
+                        </motion.button>
                     </div>
                 </div>
 

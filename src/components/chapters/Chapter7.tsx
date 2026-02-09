@@ -149,99 +149,138 @@ export const MaintenanceLeft = () => {
     );
 };
 
+
 export const MaintenanceRight = () => {
+    const [performance, setPerformance] = useState({ latency: 85, throughput: 12, health: 94 });
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setPerformance(p => ({
+                latency: Math.max(12, p.latency - (Math.random() * 2)),
+                throughput: Math.min(100, p.throughput + (Math.random() * 1.5)),
+                health: Math.min(100, p.health + (Math.random() * 0.1))
+            }));
+        }, 100);
+        return () => clearInterval(interval);
+    }, []);
+
     return (
-        <div className="h-full w-full bg-[#050505] p-8 flex flex-col items-center justify-center relative overflow-hidden border border-white/5">
+        <div className="h-full w-full bg-[#050505] p-8 flex flex-col relative overflow-hidden border border-white/5">
             {/* Background Effects */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,245,255,0.08),transparent_70%)]" />
-            <div className="absolute w-[800px] h-[800px] bg-cyber-cyan/5 rounded-full blur-[120px] -bottom-1/2" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(0,245,255,0.1),transparent_70%)]" />
 
-            <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="w-full max-w-[650px] aspect-square relative"
-            >
-                {/* Concentric Rotating Rings */}
-                <motion.div
-                    animate={{ rotate: 360 }}
-                    transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
-                    className="absolute inset-0 border-[2px] border-dashed border-cyber-cyan/20 rounded-full"
-                />
-                <motion.div
-                    animate={{ rotate: -360 }}
-                    transition={{ repeat: Infinity, duration: 15, ease: "linear" }}
-                    className="absolute inset-8 border border-white/5 rounded-full"
-                />
-
-                {/* Cyber Pulse Core */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-center z-10">
-                    <motion.div
-                        animate={{ scale: [1, 1.05, 1], filter: ["brightness(1)", "brightness(1.5)", "brightness(1)"] }}
-                        transition={{ repeat: Infinity, duration: 3 }}
-                        className="flex flex-col items-center"
-                    >
-                        <div className="text-cyber-cyan font-black text-8xl tracking-tighter drop-shadow-[0_0_20px_#00f3ff]">LIVE</div>
-                        <div className="text-white/60 text-base font-bold uppercase tracking-[0.8em] mt-2 translate-x-1">Propagating</div>
-                    </motion.div>
+            <div className="relative z-10 flex flex-col h-full">
+                <div className="flex items-center justify-between mb-10">
+                    <div>
+                        <div className="text-[10px] text-cyber-cyan font-black tracking-[0.3em] uppercase mb-1">Performance_Optimization</div>
+                        <h2 className="text-2xl font-black text-white italic tracking-tighter">SYSTEM_STABILIZATION</h2>
+                    </div>
+                    <div className="bg-cyber-cyan/10 px-4 py-2 rounded-lg border border-cyber-cyan/30">
+                        <div className="text-[8px] text-cyber-cyan font-bold uppercase">Health_Index</div>
+                        <div className="text-xl font-black text-white">{performance.health.toFixed(1)}%</div>
+                    </div>
                 </div>
 
-                {/* Animated Global Nodes (More & Smaller) */}
-                {[...Array(12)].map((_, i) => {
-                    const angle = (i * 360) / 12;
-                    return (
-                        <motion.div
-                            key={i}
-                            animate={{
-                                scale: [1, 1.5, 1],
-                                opacity: [0.3, 1, 0.3],
-                                boxShadow: ["0 0 5px #2D7DD2", "0 0 15px #00f3ff", "0 0 5px #2D7DD2"]
-                            }}
-                            transition={{ repeat: Infinity, duration: 3 + i * 0.2, delay: i * 0.3 }}
-                            className="absolute w-2 h-2 bg-white rounded-full z-20"
-                            style={{
-                                top: `${50 + 42 * Math.sin((angle * Math.PI) / 180)}%`,
-                                left: `${50 + 42 * Math.cos((angle * Math.PI) / 180)}%`,
-                            }}
-                        />
-                    );
-                })}
+                {/* Primary Metric: Latency Drop */}
+                <div className="flex-1 bg-black/40 border border-white/5 rounded-2xl p-6 mb-6 relative overflow-hidden group">
+                    <div className="flex justify-between items-end mb-4">
+                        <div>
+                            <div className="text-[10px] text-white/40 uppercase tracking-widest mb-1">Network_Latency</div>
+                            <div className="text-5xl font-black text-cyber-cyan tabular-nums drop-shadow-[0_0_15px_#00f3ff55]">
+                                {performance.latency.toFixed(0)}<span className="text-lg ml-1 font-normal opacity-50">ms</span>
+                            </div>
+                        </div>
+                        <div className="text-right">
+                            <div className="text-[8px] text-terminal-green uppercase font-black">Optimization_Delta</div>
+                            <div className="text-xl font-bold text-terminal-green">-{(85 - performance.latency).toFixed(1)} ms</div>
+                        </div>
+                    </div>
 
-                {/* Connecting Arcs (SVG) */}
-                <svg className="absolute inset-0 w-full h-full opacity-20" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="42" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-cyber-cyan" />
-                    {[0, 60, 120, 180, 240, 300].map((angle, i) => (
-                        <line
-                            key={i}
-                            x1="50" y1="50"
-                            x2={50 + 42 * Math.cos(angle * Math.PI / 180)}
-                            y2={50 + 42 * Math.sin(angle * Math.PI / 180)}
-                            stroke="currentColor" strokeWidth="0.2" className="text-cyber-cyan"
-                        />
-                    ))}
-                </svg>
-            </motion.div>
+                    {/* Simple SVG Graph Simulation */}
+                    <div className="h-32 w-full relative">
+                        <svg className="h-full w-full overflow-visible" preserveAspectRatio="none">
+                            <defs>
+                                <linearGradient id="latencyGradient" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="0%" stopColor="#00f3ff" stopOpacity="0.3" />
+                                    <stop offset="100%" stopColor="#00f3ff" stopOpacity="0" />
+                                </linearGradient>
+                            </defs>
+                            <motion.path
+                                d={`M 0 50 Q 50 ${60 + Math.random() * 20}, 100 ${40 + performance.latency / 2}, 150 70, 200 60, 250 80, 300 ${performance.latency}`}
+                                fill="transparent"
+                                stroke="#00f3ff"
+                                strokeWidth="2"
+                                strokeDasharray="4 2"
+                                className="opacity-50"
+                            />
+                            {/* Animated current status line */}
+                            <motion.path
+                                initial={{ pathLength: 0 }}
+                                animate={{ pathLength: 1 }}
+                                transition={{ duration: 2 }}
+                                d={`M 0 80 L 100 60 L 200 40 L 300 ${performance.latency / 1.5}`}
+                                fill="url(#latencyGradient)"
+                                stroke="#00f3ff"
+                                strokeWidth="3"
+                                className="drop-shadow-[0_0_8px_#00f3ff]"
+                            />
+                        </svg>
+                    </div>
+                </div>
 
-            {/* Performance HUD */}
-            <div className="mt-16 grid grid-cols-3 gap-12 bg-black/60 backdrop-blur-xl px-16 py-8 rounded-[40px] border border-white/10 relative z-10 shadow-2xl">
-                <div className="flex flex-col items-center">
-                    <span className="text-cyber-cyan text-4xl font-black">12ms</span>
-                    <span className="text-xs text-white/40 font-bold uppercase tracking-[0.2em] mt-2">Latency</span>
+                <div className="grid grid-cols-2 gap-6">
+                    <div className="bg-black/40 border border-white/5 rounded-2xl p-4">
+                        <div className="flex items-center gap-3 mb-2">
+                            <Zap size={14} className="text-yellow-400" />
+                            <span className="text-[10px] text-white/40 uppercase font-black">Throughput</span>
+                        </div>
+                        <div className="text-2xl font-black text-white italic">{performance.throughput.toFixed(1)} <span className="text-[10px] font-normal not-italic opacity-40">req/s</span></div>
+                        <div className="mt-2 h-1 bg-white/5 rounded-full overflow-hidden">
+                            <motion.div
+                                animate={{ width: `${performance.throughput}%` }}
+                                className="h-full bg-yellow-400 shadow-[0_0_10px_#facc15]"
+                            />
+                        </div>
+                    </div>
+
+                    <div className="bg-black/40 border border-white/5 rounded-2xl p-4">
+                        <div className="flex items-center gap-3 mb-2">
+                            <Globe size={14} className="text-electric-blue" />
+                            <span className="text-[10px] text-white/40 uppercase font-black">Global_Edge</span>
+                        </div>
+                        <div className="text-2xl font-black text-white italic">ACTIVE</div>
+                        <div className="flex gap-1 mt-2">
+                            {[...Array(8)].map((_, i) => (
+                                <motion.div
+                                    key={i}
+                                    animate={{
+                                        opacity: [0.2, 1, 0.2],
+                                        backgroundColor: i < 6 ? "#3b82f6" : "#1e293b"
+                                    }}
+                                    transition={{ repeat: Infinity, duration: 1.5, delay: i * 0.1 }}
+                                    className="h-1 flex-1 rounded-full"
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
-                <div className="w-px h-16 bg-white/10" />
-                <div className="flex flex-col items-center">
-                    <span className="text-terminal-green text-4xl font-black">100%</span>
-                    <span className="text-xs text-white/40 font-bold uppercase tracking-[0.2em] mt-2">Uptime</span>
-                </div>
-                <div className="w-px h-16 bg-white/10" />
-                <div className="flex flex-col items-center">
-                    <span className="text-purple-400 text-4xl font-black">2.4k</span>
-                    <span className="text-xs text-white/40 font-bold uppercase tracking-[0.2em] mt-2">Nodes</span>
+
+                {/* Status Bar */}
+                <div className="mt-auto pt-6 flex items-center justify-between border-t border-white/5">
+                    <div className="flex items-center gap-2">
+                        <div className="w-2 h-2 bg-terminal-green rounded-full animate-pulse shadow-[0_0_5px_#22c55e]" />
+                        <span className="text-[9px] text-white/40 font-mono">ENCRYPTED_SSL_TUNNEL::ON</span>
+                    </div>
+                    <div className="text-[9px] text-white/20 font-mono uppercase tracking-widest">Region::Global_Propagated</div>
                 </div>
             </div>
 
-            {/* Micro-labels */}
-            <div className="absolute top-8 left-8 text-[8px] text-white/20 uppercase tracking-[0.4em] font-mono">Global_Mesh_Sync::Active</div>
-            <div className="absolute bottom-8 right-8 text-[8px] text-white/20 uppercase tracking-[0.4em] font-mono">Sector_Alpha_09</div>
+            {/* Scanning Grid Line */}
+            <motion.div
+                animate={{ top: ['-10%', '110%'] }}
+                transition={{ repeat: Infinity, duration: 6, ease: "linear" }}
+                className="absolute left-0 right-0 h-px bg-cyber-cyan/10 blur-[1px] pointer-events-none"
+            />
         </div>
     );
 };

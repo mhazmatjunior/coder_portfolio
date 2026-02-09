@@ -33,14 +33,14 @@ export default function InsightOverlay({ currentChapter }: InsightOverlayProps) 
                         {/* Dramatic Background Glow */}
                         <div className="absolute inset-0 bg-cyber-cyan/20 blur-3xl rounded-full scale-150 opacity-50" />
 
-                        <div className="relative bg-black/60 backdrop-blur-xl px-8 py-3 rounded-2xl border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col items-center gap-1">
+                        <div className="relative bg-black/60 backdrop-blur-xl px-6 py-1.5 rounded-xl border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.5)] flex flex-col items-center gap-1">
                             <motion.div
                                 initial={{ width: 0 }}
                                 animate={{ width: "100%" }}
                                 transition={{ duration: 0.8, delay: 0.2 }}
                                 className="h-px bg-gradient-to-r from-transparent via-cyber-cyan to-transparent mb-1"
                             />
-                            <p className="text-white text-sm font-bold uppercase tracking-[0.2em] font-mono whitespace-nowrap">
+                            <p className="text-white text-[11px] font-bold uppercase tracking-[0.2em] font-mono whitespace-nowrap">
                                 {text}
                             </p>
                             <motion.div

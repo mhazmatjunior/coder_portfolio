@@ -82,9 +82,10 @@ export default function Scene() {
             case 2: return <Chapter2Left />; // Styling
             case 3: return <Chapter3Left />; // Interactivity
             case 4: return <Chapter4Left />; // Opt & Sec
-            case 5: return <Chapter6Left />; // Deployment (Using Ch6 component for now, will refactor)
-            case 6: return <MaintenanceLeft />;
-            default: return null;
+            case 5: return <Chapter6Left />; // Deployment
+            case 6:
+            case 7: return <MaintenanceLeft />;
+            default: return <MaintenanceLeft />;
         }
     };
 
@@ -96,12 +97,15 @@ export default function Scene() {
             case 3: return <Chapter3Right />;
             case 4: return <Chapter4Right />;
             case 5: return <Chapter6Right />;
-            case 6: return <MaintenanceRight />;
-            default: return null;
+            case 6:
+            case 7: return <MaintenanceRight />;
+            default: return <MaintenanceRight />;
         }
     };
 
-    const isRevealing = currentChapter >= 6; // Reveal starts at Ch 6
+    // Chapters 0-6 are speedrun. Chapter 7 is the final reveal.
+    const isRevealing = currentChapter >= 7;
+    const isMaintenance = currentChapter === 6;
 
     return (
         <div className="w-full h-screen bg-deep-space relative overflow-hidden">
