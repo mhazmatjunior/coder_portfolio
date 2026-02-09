@@ -18,8 +18,8 @@ interface SDLCIndicatorProps {
 
 export default function SDLCIndicator({ currentPhase }: SDLCIndicatorProps) {
     return (
-        <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-50 w-full max-w-4xl">
-            <div className="bg-slate-dark/80 backdrop-blur-md border border-white/10 rounded-full px-8 py-4 shadow-lg shadow-electric-blue/10 flex items-center justify-between">
+        <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-50 w-full px-4 flex justify-center">
+            <div className="bg-slate-dark/80 backdrop-blur-md border border-white/10 rounded-full px-8 py-4 shadow-lg shadow-electric-blue/10 flex items-center">
 
                 {/* Title */}
                 <div className="text-white font-bold mr-8 hidden md:block">

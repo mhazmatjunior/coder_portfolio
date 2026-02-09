@@ -8,6 +8,7 @@ import * as THREE from "three";
 interface MonitorProps {
     position?: [number, number, number];
     rotation?: [number, number, number];
+    scale?: number | [number, number, number];
     screenContent?: React.ReactNode;
     theme?: "blue" | "cyan";
 }
@@ -15,6 +16,7 @@ interface MonitorProps {
 export default function Monitor({
     position = [0, 0, 0],
     rotation = [0, 0, 0],
+    scale = 1,
     screenContent,
     theme = "blue",
 }: MonitorProps) {
@@ -22,7 +24,7 @@ export default function Monitor({
     const glowColor = theme === "blue" ? "#2D7DD2" : "#00F5FF";
 
     return (
-        <group ref={groupRef} position={position} rotation={rotation}>
+        <group ref={groupRef} position={position} rotation={rotation} scale={scale}>
             {/* Monitor Frame */}
             <RoundedBox args={[3.2, 2.1, 0.1]} radius={0.05} receiveShadow castShadow>
                 <meshStandardMaterial color="#1E1E2E" roughness={0.2} metalness={0.8} />

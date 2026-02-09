@@ -35,7 +35,7 @@ export const Chapter4Left = () => {
             } else {
                 clearInterval(interval);
             }
-        }, 400); // Fast log scroll
+        }, 220); // Synced with duration (4s)
         return () => clearInterval(interval);
     }, []);
 
@@ -47,8 +47,8 @@ export const Chapter4Left = () => {
             </div>
             {logs.map((log, i) => (
                 <div key={i} className={`mb-1 ${log.includes("✓") ? "text-terminal-green" :
-                        log.includes(">") ? "text-yellow-400 font-bold" :
-                            log.includes("SUCCESSFUL") ? "text-blue-400 font-bold bg-blue-900/20" : "text-gray-300"
+                    log.includes(">") ? "text-yellow-400 font-bold" :
+                        log.includes("SUCCESSFUL") ? "text-blue-400 font-bold bg-blue-900/20" : "text-gray-300"
                     }`}>
                     {log}
                 </div>
@@ -59,7 +59,8 @@ export const Chapter4Left = () => {
 
 export const Chapter4Right = () => {
     return (
-        <div className="h-full w-full bg-deep-space p-6 grid grid-cols-2 grid-rows-2 gap-4">
+        <div className="h-full w-full bg-deep-space p-6 grid grid-cols-2 grid-rows-2 gap-4 relative overflow-hidden">
+
             {/* Performance Card */}
             <motion.div
                 initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.5 }}

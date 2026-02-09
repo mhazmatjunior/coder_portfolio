@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Chapter2Left = () => {
     const [code, setCode] = useState("");
@@ -44,9 +44,9 @@ button {
         let i = 0;
         const interval = setInterval(() => {
             setCode(cssCode.slice(0, i));
-            i += 8; // Very fast typing
+            i++;
             if (i > cssCode.length) clearInterval(interval);
-        }, 50);
+        }, 13);
         return () => clearInterval(interval);
     }, []);
 
@@ -64,28 +64,17 @@ export const Chapter2Right = () => {
         // Sync visual updates with "phases" of CSS being applied
         const interval = setInterval(() => {
             setStep(s => s + 1);
-        }, 2000);
+        }, 1500); // Progress over 7s duration
         return () => clearInterval(interval);
     }, []);
 
     return (
         <div className={`h-full w-full overflow-y-auto transition-all duration-1000 ${step > 0 ? "bg-deep-space text-silver-gray" : "bg-white text-black"}`}>
 
-            {/* Narrative Overlay */}
-            <motion.div
-                key={step}
-                initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }}
-                className="absolute top-4 right-4 bg-purple-600 text-white px-3 py-1 rounded shadow-lg font-sans text-xs font-bold z-20"
-            >
-                {step === 0 && "Applying Base Styles..."}
-                {step === 1 && "Typography & Colors ✓"}
-                {step === 2 && "Glassmorphism UI ✓"}
-                {step >= 3 && "Animations & Interactions ✓"}
-            </motion.div>
 
             <header className={`p-8 text-center transition-all duration-700 ${step > 1 ? "bg-slate-dark/50 backdrop-blur-md border-b border-white/10" : ""}`}>
                 <h1 className={`text-4xl font-bold mb-2 transition-all duration-700 ${step > 1 ? "bg-clip-text text-transparent bg-gradient-to-r from-electric-blue to-cyber-cyan" : ""}`}>
-                    Alex Chen
+                    Hassan
                 </h1>
                 <p className={`${step > 0 ? "text-muted-blue" : "text-gray-600"}`}>Full-Stack Dev & Security Expert</p>
             </header>
@@ -97,8 +86,8 @@ export const Chapter2Right = () => {
                         <div
                             key={i}
                             className={`p-4 transition-all duration-500 ${step > 2
-                                    ? "bg-white/5 border border-white/10 rounded-xl hover:scale-105 hover:shadow-[0_0_20px_rgba(0,245,255,0.2)]"
-                                    : "border border-gray-300"
+                                ? "bg-white/5 border border-white/10 rounded-xl hover:scale-105 hover:shadow-[0_0_20px_rgba(0,245,255,0.2)]"
+                                : "border border-gray-300"
                                 }`}
                         >
                             <h3 className={`font-bold mb-2 ${step > 1 ? "text-cyber-cyan" : ""}`}>{project}</h3>
@@ -117,8 +106,8 @@ export const Chapter2Right = () => {
                     />
                     <button
                         className={`w-full p-2 rounded font-bold transition-all ${step > 2
-                                ? "bg-gradient-to-r from-electric-blue to-purple-600 text-white shadow-[0_0_15px_rgba(45,125,210,0.4)]"
-                                : "bg-gray-200 text-black"
+                            ? "bg-gradient-to-r from-electric-blue to-purple-600 text-white shadow-[0_0_15px_rgba(45,125,210,0.4)]"
+                            : "bg-gray-200 text-black"
                             }`}
                     >
                         Send Message

@@ -18,7 +18,7 @@ export const Chapter6Left = () => {
         "✓ Upload to Edge Network",
         "------------------------------",
         "DEPLOYMENT COMPLETE",
-        "URL: https://alexchen.dev",
+        "URL: https://hassan.dev",
         "Status: 200 OK"
     ];
 
@@ -32,7 +32,7 @@ export const Chapter6Left = () => {
             } else {
                 clearInterval(interval);
             }
-        }, 600);
+        }, 270); // Finishes around 3.6s (13 lines)
         return () => clearInterval(interval);
     }, []);
 
@@ -63,6 +63,7 @@ export const Chapter6Right = () => {
 
     return (
         <div className="h-full w-full bg-deep-space p-6 flex flex-col items-center justify-center relative overflow-hidden">
+
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(45,125,210,0.1),transparent)]" />
 
             <motion.div

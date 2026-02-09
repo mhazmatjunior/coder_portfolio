@@ -1,18 +1,18 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 
 export const Chapter1Left = () => {
     const [code, setCode] = useState("");
     const fullCode = `<!DOCTYPE html>
 <html>
 <head>
-  <title>Alex Chen</title>
+  <title>Hassan</title>
 </head>
 <body>
   <header>
-    <h1>Alex Chen</h1>
+    <h1>Hassan</h1>
     <p>Dev & Sec</p>
   </header>
   <nav>
@@ -29,13 +29,11 @@ export const Chapter1Left = () => {
 
     useEffect(() => {
         let i = 0;
-        // Fast typing: full length / 15000ms is too slow, we need bursts. 
-        // 15 seconds total.
         const interval = setInterval(() => {
             setCode(fullCode.slice(0, i));
-            i += 5; // Type 5 chars at a time
+            i++;
             if (i > fullCode.length) clearInterval(interval);
-        }, 50);
+        }, 9); // Finishes around 3.5s (380 chars)
         return () => clearInterval(interval);
     }, []);
 
@@ -52,23 +50,16 @@ export const Chapter1Right = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setStep(s => s + 1);
-        }, 1500); // 10 steps over 15s
+        }, 350); // 10 steps over 3.5s (Chapter duration 4s)
         return () => clearInterval(interval);
     }, []);
 
-    // Simulating unstyled HTML
     return (
         <div className="h-full w-full bg-white text-black p-8 font-serif overflow-y-auto">
-            {/* Narrative Overlay */}
-            <motion.div
-                initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }}
-                className="absolute top-4 right-4 bg-blue-600 text-white px-3 py-1 rounded shadow-lg font-sans text-xs font-bold z-10"
-            >
-                Structure: Semantic HTML5
-            </motion.div>
+
 
             <motion.header initial={{ opacity: 0 }} animate={{ opacity: step > 1 ? 1 : 0 }}>
-                <h1 className="text-3xl font-bold mb-2">Alex Chen</h1>
+                <h1 className="text-3xl font-bold mb-2">Hassan</h1>
                 <p className="mb-4">Full-Stack Dev & Security Expert</p>
             </motion.header>
 
