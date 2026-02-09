@@ -304,9 +304,13 @@ export default function Portfolio() {
                     <a href="#projects" className="px-8 py-3 bg-electric-blue text-white rounded-lg font-bold hover:bg-blue-600 transition-colors shadow-lg shadow-electric-blue/20">
                         View My Work
                     </a>
-                    <button className="px-8 py-3 border border-slate-700 rounded-lg font-bold hover:border-cyber-cyan hover:text-cyber-cyan transition-colors flex items-center gap-2">
+                    <a
+                        href="/MuhammadHassanAzmatResume.pdf"
+                        download="MuhammadHassanAzmatResume.pdf"
+                        className="px-8 py-3 border border-slate-700 rounded-lg font-bold hover:border-cyber-cyan hover:text-cyber-cyan transition-colors flex items-center gap-2"
+                    >
                         <Download size={18} /> Resume
-                    </button>
+                    </a>
                 </motion.div>
             </section>
 
