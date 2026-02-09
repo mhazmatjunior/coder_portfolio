@@ -1,8 +1,9 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { Github, Linkedin, Mail, Code, Shield, ExternalLink, Terminal, Download, Award, BadgeCheck, X, ZoomIn, ChevronDown, ChevronUp } from "lucide-react";
-import { useState, useEffect } from "react";
+import { Github, Linkedin, Mail, Code, Shield, ExternalLink, Terminal, Download, Award, BadgeCheck, X, ZoomIn, ChevronDown, ChevronUp, Send, CheckCircle2, AlertCircle } from "lucide-react";
+import { useState, useEffect, useRef } from "react";
+import emailjs from '@emailjs/browser';
 
 const TypewriterText = ({ text, delay = 0 }: { text: string; delay?: number }) => {
     const [displayText, setDisplayText] = useState("");
@@ -39,6 +40,42 @@ const TypewriterText = ({ text, delay = 0 }: { text: string; delay?: number }) =
 export default function Portfolio() {
     const [selectedCert, setSelectedCert] = useState<any>(null);
     const [showAllCerts, setShowAllCerts] = useState(false);
+    const form = useRef<HTMLFormElement>(null);
+    const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+    const [statusMsg, setStatusMsg] = useState('');
+
+    const sendEmail = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        // User provided EmailJS IDs
+        const SERVICE_ID = "service_jbki7ql";
+        const TEMPLATE_ID = "template_4f90woq";
+        const PUBLIC_KEY = "Dbs5qTOQ-H_nTF3Mg";
+
+        setStatus('sending');
+
+        if (form.current) {
+            emailjs.sendForm(SERVICE_ID, TEMPLATE_ID, form.current, PUBLIC_KEY)
+                .then(() => {
+                    setStatus('success');
+                    setStatusMsg("Message sent successfully! I'll get back to you soon.");
+                    form.current?.reset();
+                }, (error) => {
+                    console.log('FAILED...', error.text);
+                    setStatus('error');
+                    setStatusMsg("Failed to send message. Please try again or email me directly.");
+                });
+        }
+    };
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => setIsMobile(window.innerWidth < 768);
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     const certifications = [
         { name: "React - The Complete Guide", issuer: "Academind / Udemy", date: "2024", color: "from-[#61DAFB]/20", image: "/React - The Complete Guide.jpg" },
@@ -85,7 +122,7 @@ export default function Portfolio() {
                             initial={{ scale: 0.9, opacity: 0, y: 20 }}
                             animate={{ scale: 1, opacity: 1, y: 0 }}
                             exit={{ scale: 0.9, opacity: 0, y: 20 }}
-                            className="relative max-w-3xl w-full aspect-[4/3] bg-[#0A0A12] border border-cyber-cyan/30 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(0,243,255,0.2)] flex items-center justify-center group/modal"
+                            className="relative max-w-3xl w-full aspect-[4/3] md:aspect-[4/3] bg-[#0A0A12] border border-cyber-cyan/30 rounded-xl overflow-hidden shadow-[0_0_50px_rgba(0,243,255,0.2)] flex items-center justify-center group/modal"
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Scanning Laser Line */}
@@ -128,21 +165,54 @@ export default function Portfolio() {
             </div>
 
             {/* Navigation */}
-            <nav className="fixed top-0 left-0 right-0 p-6 flex justify-between items-center z-50 backdrop-blur-md bg-deep-space/80 border-b border-white/5">
+            <nav className="fixed top-0 left-0 right-0 p-4 md:p-6 flex justify-between items-center z-50 backdrop-blur-md bg-deep-space/80 border-b border-white/5">
                 <motion.div
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-electric-blue to-cyber-cyan"
+                    className="text-xl md:text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-electric-blue to-cyber-cyan"
                 >
                     Dev<span className="text-white">Sec</span>
                 </motion.div>
-                <div className="flex gap-6 text-sm font-medium">
+
+                {/* Desktop Menu */}
+                <div className="hidden md:flex gap-6 text-sm font-medium">
                     {['About', 'Skills', 'Projects', 'Certifications', 'Contact'].map((item) => (
                         <a key={item} href={`#${item.toLowerCase()}`} className="hover:text-cyber-cyan transition-colors">
                             {item}
                         </a>
                     ))}
                 </div>
+
+                {/* Mobile Menu Toggle */}
+                <button
+                    className="md:hidden p-2 text-white/70 hover:text-white transition-colors"
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                >
+                    {isMenuOpen ? <X size={24} /> : <Terminal size={24} />}
+                </button>
+
+                {/* Mobile Menu Overlay */}
+                <AnimatePresence>
+                    {isMenuOpen && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="absolute top-full left-0 right-0 bg-slate-dark/95 backdrop-blur-xl border-b border-white/10 p-6 flex flex-col gap-4 md:hidden"
+                        >
+                            {['About', 'Skills', 'Projects', 'Certifications', 'Contact'].map((item) => (
+                                <a
+                                    key={item}
+                                    href={`#${item.toLowerCase()}`}
+                                    className="text-lg font-medium hover:text-cyber-cyan transition-colors py-2 border-b border-white/5 last:border-0"
+                                    onClick={() => setIsMenuOpen(false)}
+                                >
+                                    {item}
+                                </a>
+                            ))}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </nav>
 
             {/* Hero Section */}
@@ -209,7 +279,7 @@ export default function Portfolio() {
                     initial={{ y: 20, opacity: 0 }}
                     animate={{ y: 0, opacity: 1 }}
                     transition={{ delay: 0.2 }}
-                    className="text-5xl md:text-7xl font-bold text-center mb-6"
+                    className="text-4xl md:text-7xl font-bold text-center mb-6 px-4"
                 >
                     Hi, I'm <span className="text-electric-blue">Hassan</span> <br />
                     <TypewriterText text="Full-Stack Developer" delay={800} />
@@ -241,13 +311,13 @@ export default function Portfolio() {
             </section>
 
             {/* Skills Section */}
-            <section id="skills" className="py-20 px-8 bg-slate-dark/30">
+            <section id="skills" className="py-12 md:py-20 px-4 md:px-8 bg-slate-dark/30">
                 <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-8 md:mb-12 flex items-center gap-3">
                         <Code className="text-electric-blue" /> Technical Arsenal
                     </h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                         <div>
                             <h3 className="text-xl font-bold mb-6 text-cyber-cyan">Development</h3>
                             <div className="grid grid-cols-2 gap-4">
@@ -274,9 +344,9 @@ export default function Portfolio() {
             </section>
 
             {/* Projects Section */}
-            <section id="projects" className="py-20 px-8">
+            <section id="projects" className="py-12 md:py-20 px-4 md:px-8">
                 <div className="max-w-6xl mx-auto">
-                    <h2 className="text-3xl font-bold mb-12 flex items-center gap-3">
+                    <h2 className="text-2xl md:text-3xl font-bold mb-8 md:mb-12 flex items-center gap-3">
                         <Terminal className="text-neon-purple" /> Featured Projects
                     </h2>
 
@@ -361,16 +431,16 @@ export default function Portfolio() {
             </section>
 
             {/* Certifications Section */}
-            <section id="certifications" className="py-24 px-8 bg-black/20 relative overflow-hidden">
+            <section id="certifications" className="py-16 md:py-24 px-4 md:px-8 bg-black/20 relative overflow-hidden">
                 <div className="max-w-6xl mx-auto relative z-10">
-                    <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
-                        <div>
-                            <h2 className="text-4xl font-black mb-4 flex items-center gap-4">
-                                <Award className="text-cyber-cyan" size={36} /> Professional <span className="text-electric-blue italic">Credentials</span>
+                    <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-8 md:mb-16 gap-6">
+                        <div className="text-center md:text-left">
+                            <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-black mb-4 flex items-center justify-center md:justify-start gap-1 md:gap-4">
+                                <Award className="text-cyber-cyan shrink-0" size={isMobile ? 22 : 32} /> Professional <span className="text-electric-blue italic ml-1">Certificates</span>
                             </h2>
-                            <p className="text-muted-blue max-w-xl">Verified expertise across cloud computing, cybersecurity, and advanced engineering systems.</p>
+                            <p className="text-muted-blue max-w-xl text-xs sm:text-sm md:text-base mx-auto md:mx-0">Verified expertise across cloud computing, cybersecurity, and advanced engineering systems.</p>
                         </div>
-                        <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent mx-8 mb-4 hidden md:block" />
+                        <div className="h-px flex-1 bg-gradient-to-r from-white/10 to-transparent mx-8 mb-4 hidden lg:block" />
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
@@ -494,12 +564,55 @@ export default function Portfolio() {
                             <Shield size={16} />
                             <span className="text-xs font-mono">ENCRYPTED COMMUNICATION AVAILABLE</span>
                         </div>
-                        <form className="flex flex-col gap-4">
-                            <input type="text" placeholder="Name" className="bg-deep-space border border-white/10 p-3 rounded-lg focus:border-cyber-cyan outline-none transition-colors" />
-                            <input type="email" placeholder="Email" className="bg-deep-space border border-white/10 p-3 rounded-lg focus:border-cyber-cyan outline-none transition-colors" />
-                            <textarea placeholder="Message" rows={4} className="bg-deep-space border border-white/10 p-3 rounded-lg focus:border-cyber-cyan outline-none transition-colors" />
-                            <button className="bg-gradient-to-r from-electric-blue to-neon-purple text-white py-3 rounded-lg font-bold hover:opacity-90 transition-opacity">
-                                Send Secure Message
+                        <form ref={form} onSubmit={sendEmail} className="flex flex-col gap-4">
+                            <input
+                                type="text"
+                                name="from_name"
+                                placeholder="Name"
+                                required
+                                className="bg-deep-space border border-white/10 p-3 rounded-lg focus:border-cyber-cyan outline-none transition-colors"
+                            />
+                            <input
+                                type="email"
+                                name="reply_to"
+                                placeholder="Email"
+                                required
+                                className="bg-deep-space border border-white/10 p-3 rounded-lg focus:border-cyber-cyan outline-none transition-colors"
+                            />
+                            <textarea
+                                name="message"
+                                placeholder="Message"
+                                rows={4}
+                                required
+                                className="bg-deep-space border border-white/10 p-3 rounded-lg focus:border-cyber-cyan outline-none transition-colors"
+                            />
+
+                            <AnimatePresence mode="wait">
+                                {status !== 'idle' && (
+                                    <motion.div
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: -10 }}
+                                        className={`flex items-center justify-center gap-2 p-3 rounded-lg text-sm font-mono ${status === 'sending' ? 'text-cyber-cyan bg-cyber-cyan/10' :
+                                            status === 'success' ? 'text-terminal-green bg-terminal-green/10' :
+                                                'text-error-red bg-error-red/10'
+                                            }`}
+                                    >
+                                        {status === 'sending' && <div className="w-4 h-4 border-2 border-cyber-cyan border-t-transparent rounded-full animate-spin" />}
+                                        {status === 'success' && <CheckCircle2 size={16} />}
+                                        {status === 'error' && <AlertCircle size={16} />}
+                                        {status === 'sending' ? 'TRANSMITTING_DATA...' : statusMsg}
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
+
+                            <button
+                                type="submit"
+                                disabled={status === 'sending'}
+                                className={`bg-gradient-to-r from-electric-blue to-neon-purple text-white py-3 rounded-lg font-bold hover:opacity-90 transition-opacity flex items-center justify-center gap-2 ${status === 'sending' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                            >
+                                <Send size={18} />
+                                {status === 'sending' ? 'SENDING...' : 'Send Secure Message'}
                             </button>
                         </form>
                     </div>

@@ -45,6 +45,22 @@ export default function Scene() {
         return 5; // Maintenance (Live)
     };
 
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const handleResize = () => {
+            const mobile = window.innerWidth < 768;
+            setIsMobile(mobile);
+            if (mobile && !showPortfolio) {
+                setShowPortfolio(true);
+                setChapter(7);
+            }
+        };
+        handleResize();
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, [showPortfolio, setChapter]);
+
     useEffect(() => {
         // Exact Speedrun Timings (Total: 45s)
         const times = [10000, 4000, 7000, 5000, 4000, 4000, 2300]; // 300ms extra pause on Maintenance
@@ -130,8 +146,8 @@ export default function Scene() {
                 <Canvas shadows gl={{ antialias: true, toneMappingExposure: 1.5 }}>
                     <PerspectiveCamera
                         makeDefault
-                        position={[0, 0, isRevealing ? 12 : 5.5]}
-                        fov={50}
+                        position={[0, 0, isRevealing ? (isMobile ? 18 : 12) : (isMobile ? 8 : 5.5)]}
+                        fov={isMobile ? 65 : 50}
                     />
 
                     <ambientLight intensity={0.2} />
@@ -147,9 +163,9 @@ export default function Scene() {
                         {/* Monitors appear when Chapter > 0 */}
                         <Float speed={isRevealing ? 0 : 2} rotationIntensity={isRevealing ? 0 : 0.2} floatIntensity={isRevealing ? 0 : 0.5}>
                             <Monitor
-                                position={isRevealing ? [-1.7, 0, -0.5] : [-1.5, 0, -0.4]}
+                                position={isRevealing ? [-1.7, 0, -0.5] : (isMobile ? [-0.8, 0.8, -0.4] : [-1.5, 0, -0.4])}
                                 rotation={isRevealing ? [0, 0, 0] : [0, 0.25, 0]}
-                                scale={isRevealing ? 2.0 : 0.9}
+                                scale={isRevealing ? 2.0 : (isMobile ? 0.6 : 0.9)}
                                 theme="blue"
                                 screenContent={renderLeftScreen()}
                             />
@@ -158,9 +174,9 @@ export default function Scene() {
                         {/* Right Monitor */}
                         <Float speed={isRevealing ? 0 : 2} rotationIntensity={isRevealing ? 0 : 0.2} floatIntensity={isRevealing ? 0 : 0.5}>
                             <Monitor
-                                position={isRevealing ? [1.7, 0, 0.5] : [1.5, 0, 0.4]}
+                                position={isRevealing ? [1.7, 0, 0.5] : (isMobile ? [0.8, -0.8, 0.4] : [1.5, 0, 0.4])}
                                 rotation={isRevealing ? [0, 0, 0] : [0, -0.25, 0]}
-                                scale={isRevealing ? 2.0 : 0.9}
+                                scale={isRevealing ? 2.0 : (isMobile ? 0.6 : 0.9)}
                                 theme="cyan"
                                 screenContent={renderRightScreen()}
                             />
@@ -180,17 +196,19 @@ export default function Scene() {
                         className="absolute inset-0 z-50 overflow-auto"
                     >
                         <Portfolio />
-                        <div className="fixed bottom-12 right-12 z-[60]">
-                            <button
-                                onClick={() => {
-                                    setShowPortfolio(false);
-                                    setChapter(0);
-                                }}
-                                className="bg-white/10 backdrop-blur text-xs px-4 py-2 rounded text-white hover:bg-white/20 transition-all active:scale-95 border border-white/10 font-mono tracking-widest uppercase"
-                            >
-                                Replay Intro
-                            </button>
-                        </div>
+                        {!isMobile && (
+                            <div className="fixed bottom-12 right-12 z-[60]">
+                                <button
+                                    onClick={() => {
+                                        setShowPortfolio(false);
+                                        setChapter(0);
+                                    }}
+                                    className="bg-white/10 backdrop-blur text-xs px-4 py-2 rounded text-white hover:bg-white/20 transition-all active:scale-95 border border-white/10 font-mono tracking-widest uppercase"
+                                >
+                                    Replay Intro
+                                </button>
+                            </div>
+                        )}
                     </motion.div>
                 )}
             </AnimatePresence>

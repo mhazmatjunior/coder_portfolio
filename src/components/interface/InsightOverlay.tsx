@@ -40,7 +40,7 @@ export default function InsightOverlay({ currentChapter }: InsightOverlayProps) 
                                 transition={{ duration: 0.8, delay: 0.2 }}
                                 className="h-px bg-gradient-to-r from-transparent via-cyber-cyan to-transparent mb-1"
                             />
-                            <p className="text-white text-[11px] font-bold uppercase tracking-[0.2em] font-mono whitespace-nowrap">
+                            <p className="text-white text-[10px] md:text-[11px] font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] font-mono text-center max-w-[280px] md:max-w-none">
                                 {text}
                             </p>
                             <motion.div

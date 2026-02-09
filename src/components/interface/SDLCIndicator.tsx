@@ -54,7 +54,7 @@ export default function SDLCIndicator({ currentPhase }: SDLCIndicatorProps) {
                                         <Circle size={16} className="text-gray-600" />
                                     )}
 
-                                    <span className={`text-xs font-bold uppercase ${isActive ? "text-white" : "text-gray-500"}`}>
+                                    <span className={`text-xs font-bold uppercase ${isActive ? "text-white block" : "text-gray-500 hidden md:block"}`}>
                                         {phase.label}
                                     </span>
                                 </motion.div>
